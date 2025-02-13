@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Fashion Closet</title>
+    <style>
+        /* Modern CSS Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Custom Properties */
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --secondary-color: #3498db;
+            --light-gray: #f5f6fa;
+            --dark-gray: #2c3e50;
+            --text-color: #333;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+            --gradient: linear-gradient(135deg, #2c3e50, #3498db);
+        }
+
+        /* Global Styles */
+        body {
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        header {
+            background: var(--gradient);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow-md);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Navigation Styles */
+        nav {
+            background-color: white;
+            padding: 1rem;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 80px;
+            z-index: 999;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--dark-gray);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--accent-color);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        nav a:hover::after {
+            width: 80%;
+        }
+
+        nav a:hover {
+            color: var(--accent-color);
+            background-color: rgba(231, 76, 60, 0.1);
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 6rem 2rem;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('/api/placeholder/1200/400');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle, transparent 20%, black 150%);
+        }
+
+        .hero h2 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        /* Clothing Grid */
+        .clothing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            padding: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .clothing-item {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .clothing-item:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .clothing-item img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .clothing-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .item-details {
+            padding: 1.5rem;
+            background: white;
+            position: relative;
+        }
+
+        .item-details::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: white;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .item-details h3 {
+            color: var(--dark-gray);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .item-details p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Add Item Button */
+        .add-item {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--gradient);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+        }
+
+        .add-item:hover {
+            transform: scale(1.1) rotate(180deg);
+        }
+
+        /* Category Tags */
+        .category-tag {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255,255,255,0.9);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            font-weight: 500;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            nav {
+                top: 71px;
+            }
+
+            nav ul {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .hero {
+                padding: 4rem 1rem;
+            }
+
+            .hero h2 {
+                font-size: 2.5rem;
+            }
+
+            .clothing-grid {
+                padding: 1.5rem;
+                gap: 1.5rem;
+            }
+
+            .add-item {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+                bottom: 1.5rem;
+                right: 1.5rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .clothing-item {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        .clothing-item:nth-child(2) { animation-delay: 0.2s; }
+        .clothing-item:nth-child(3) { animation-delay: 0.4s; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Digital Fashion Closet</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#all">All Items</a></li>
+            <li><a href="#tops">Tops</a></li>
+            <li><a href="#bottoms">Bottoms</a></li>
+            <li><a href="#dresses">Dresses</a></li>
+            <li><a href="#accessories">Accessories</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <h2>Your Style, Organized</h2>
+        <p>Discover your perfect outfit combinations and manage your wardrobe effortlessly</p>
+    </section>
+
+    <main class="clothing-grid">
+        <div class="clothing-item">
+            <span class="category-tag">Dresses</span>
+            <img src="/api/placeholder/300/400" alt="Fashion Item">
+            <div class="item-details">
+                <h3>Summer Dress</h3>
+                <p>Floral pattern, lightweight fabric</p>
+            </div>
+        </div>
+        <div class="clothing-item">
+            <span class="category-tag">Outerwear</span>
+            <img src="/api/placeholder/300/400" alt="Fashion Item">
+            <div class="item-details">
+                <h3>Denim Jacket</h3>
+                <p>Classic blue, distressed style</p>
+            </div>
+        </div>
+        <div class="clothing-item">
+            <span class="category-tag">Bottoms</span>
+            <img src="/api/placeholder/300/400" alt="Fashion Item">
+            <div class="item-details">
+                <h3>Black Jeans</h3>
+                <p>Slim fit, high-waisted</p>
+            </div>
+        </div>
+    </main>
+
+    <div class="add-item">+</div>
+</body>
+</html>
